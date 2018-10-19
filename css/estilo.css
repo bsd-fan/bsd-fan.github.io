@@ -17,6 +17,7 @@ body {
 }
 
 header {
+font-size: 1rem;
   height: 50px;
 	background: #00090D;
 	color: #756860;
