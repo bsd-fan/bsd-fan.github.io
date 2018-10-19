@@ -1,10 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="UTF-8">
 	<title>OpenBSD Fan!</title>
+	<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono|Ubuntu+Mono" rel="stylesheet">
+	<link rel="stylesheet" href="css/estilo.css">
+	<title>OpenBSD Fan's!</title>
 </head>
 <body>
-	<h1>Bienvenido a OpenBSD Fan!!!!</h1>
+	<header><h1>Bienvenido a OpenBSD Fan!</h1></header>
+	<div class="container">
+		<div class="box1"></div>
+		<div class="box2"><h1>//Que es Openbsd//</h1>
+			<article>
+				OpenBSD es un sistema operativo libre tipo Unix multiplataforma, basado en 4.4BSD. Es un descendiente de NetBSD, con un foco especial en la seguridad y la criptografía. <br>
+				Este sistema operativo se concentra en la portabilidad, cumplimiento de normas y regulaciones, corrección, seguridad proactiva y criptografía integrada. OpenBSD incluye emulación de binarios para la mayoría de los programas de los sistemas SVR4 (Solaris), FreeBSD, Linux, BSD/OS, SunOS y HP-UX. <br>
+				Se distribuye bajo la licencia BSD, aprobada por la OSI.
+			</article>
+				<h1>//NAT en OpenBSD//</h1>
+			<article>
+	           NAT (Network Address Translation - Traducción de Dirección de Red) es un mecanismo utilizado por enrutadores IP para intercambiar paquetes entre dos redes que se asignan mutuamente direcciones incompatibles. Consiste en convertir en tiempo real las direcciones utilizadas en los paquetes transportados. También es necesario editar los paquetes para permitir la operación de protocolos que incluyen información de direcciones dentro de la conversación del protocolo. <br>
+
+	           Su uso más común es permitir utilizar direcciones privadas (definidas en el RFC 1918) para acceder a Internet. Existen rangos de direcciones privadas que pueden usarse libremente y en la cantidad que se quiera dentro de una red privada. Si el número de direcciones privadas es muy grande puede usarse solo una parte de direcciones públicas para salir a Internet desde la red privada. De esta manera simultáneamente sólo pueden salir a Internet con una dirección IP tantos equipos como direcciones públicas se hayan contratado. Esto es necesario debido al progresivo agotamiento de las direcciones IPv4. Se espera que con el advenimiento de IPv6 no sea necesario continuar con esta práctica.  (Fuente) <br>
+
+				<div class="code">
+					#MACROS Se define que interfaz se usa para cada proposito. <br> 
+					wan=rl0 <br>
+					lan=dc0 <br>
+					<br><br>
+					#Red interna <br>	
+					red_lan="10.0.55.0/24"<br>
+					<br><br>
+					#NAT esta regla hace que toda la red pueda salir a Internet. <br> 
+					match out on $wan from $red_lan to any nat-to $wan <br>
+				</div>
+
+				Nota: Este es un fragmento de la configuración de un archivo pf.conf y solo hace referencia a 
+				NAT. <br>		
+				Luego activamos el reenvío de paquetes IP <br>
+
+				Dado que NAT se utiliza casi siempre en los enrutadores y pasarelas de red, probablemente será necesario habilitar el reenvío de IP (IP Forwarding) para que los paquetes puedan viajar entre las interfaces de red de la máquina OpenBSD. El reenvío de IP se habilita mediante el mecanismo sysctl(3): <br>
+				<div class="code">
+				# sysctl net.inet.ip.forwarding=1 <br>
+				# sysctl net.inet6.ip6.forwarding=1 (if using IPv6) <br>
+				</div> <br>
+
+				Para que este cambio sea permanente, hay que añadir las siguientes líneas al fichero <span>/etc/sysctl.conf:</span> <br>
+
+				<div class="code">
+
+				net.inet.ip.forwarding=1 <br>
+				net.inet6.ip6.forwarding=1 <br>
+				 </div>
+
+				Estas líneas ya existen en la instalación predeterminada, pero como comentarios (prefijadas con #). Hay que quitar el signo <span>#</span> y guardar el fichero. El reenvío de IP se activará cuando se reinicie la máquina.   (Fuente)	
+			</article>
+			<h1>//Asignar puerta de enlace//</h1>
+			<article>
+				Debemos acceder a la carpeta <span>"/etc/"</span> y buscar el archivo <span>"mygate"</span> y editarlo de la siguiente manera: <br>	
+				<div class="code">192.168.1.1</div> <br>
+				Aquí les dejo un ejemplo teniendo en cuenta de que la Puerta de Enlace Predeterminada es <span>"192.168.1.1":</span> <br>	
+				Si no se encuentra el archivo podemos crearlo con el comando <span>"touch"</span>: <br>
+				<div class="code">touch /etc/mygate</div>
+			</article>
+			<h1>//Asignar dirección ip y mascara de red a una placa de red//</h1>
+			<article>
+				Bien, primero debemos acceder a la carpeta <span>"/etc/"</span> y buscar el archivo <span>"hostname.nombredelainterfaz"</span> (nombredelainterfaz es igual al nombre que OpenBSD le haya asignado a nuestra placa de red, en mi caso mi placa de red se llama <span>"rl0"</span> por consiguiente mi archivo es <span>"hostname.rl0"</span>), bien aquí les dejo un ejemplo de como configurarlo: <br>
+
+				<div class="code">inet 10.0.55.1 255.255.255.0 NONE</div> <br>
+				
+				En este ejemplo asignamos la dirección de <span>ip 10.0.55.1</span> y mascara de red <span>255.255.255.0</span>.
+
+				Para aplicar los cambios ejecutamos: <br>
+
+				<div class="code">sh /etc/netstat</div>
+			</article>
+			<h1>//Asignar Servidor DNS//</h1>
+			<article>
+				Debemos acceder a la carpeta <span>"/etc/" </span>y buscar el archivo <span>"resolv.conf"</span> y editarlo de la siguiente manera (en este ejemplo se utiliza como ejemplo de servidor de DNS primario <span>"1.1.1.1"</span> y <span>"1.0.0.1"</span> como DNS secundario, reemplácelo por el dominio que usted desee): <br>
+				<div class="code">
+						lookup file bind <br>
+						nameserver 1.1.1.1 <br>
+						nameserver 1.0.0.1 <br> 
+				</div>
+			</article>
+
+		</div>
+		<div class="box3"></div>
+		</div>
+		<footer> -------// Realizado por Mario Tapia año 2018 //-------</footer>
 </body>
 </html>

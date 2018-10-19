@@ -1,0 +1,88 @@
+/*ELIMINA MARGENES EL (*) ES EL SELECTOR UNIVERSAL */
+
+* {
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+/*DA COLOR DE FONTO Y DE TEXTO*/
+
+
+body {
+	background: #00090D;
+	color: #756860;
+	font-family: 'Ubuntu Mono', monospace;
+  font-size: 1rem;
+}
+
+header {
+  height: 50px;
+	background: #00090D;
+	color: #756860;
+	font-family: 'Ubuntu Mono', monospace;
+  margin-bottom: 5px;
+  text-align: center;
+ }
+
+h1 {
+  font-size: 1rem;
+} 
+
+/*DA FORMATO AL CONTENDEDOR <DIV>*/
+.container {
+        display: grid;
+        grid-template-columns: 1fr 4fr 1fr;
+        grid-gap: 20px;
+}
+
+article {
+		margin-top: 15px;
+		margin-bottom: 15px;
+		text-align: justify;
+    font-size: 1rem;
+}
+
+.box1 {
+       /* background: url("../img/head.png");
+        background-size: 1fr;
+        background-position: center center;
+        background-repeat: no-repeat;
+        padding:10px;*/
+           
+}
+
+
+.box2 {
+        background: #00090D;
+    		color: #756860;
+		    padding:10px;
+}
+
+.box3 {
+       /* background: url(https://www.openbsd.org/art/tshirt-6b.jpg);
+        background-size: 1fr;
+        background-position: center center;
+        background-repeat: no-repeat;
+        padding:10px;*/
+}
+
+.code {
+		font-family: 'Share Tech Mono', monospace;
+		color: #699421;
+		margin-left: 30px;
+		margin-top: 20px;
+		margin-bottom: 20px;
+    font-size: 0.8rem;
+}
+
+span {
+  font-family: 'Share Tech Mono', monospace;
+  color: #699421;
+}
+
+footer {
+  text-align: center;
+  height: 50px;
+
+}
